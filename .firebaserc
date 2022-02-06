@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "web-app-469d2"
+  },
+  "targets": {
+    "web-app-469d2": {
+      "hosting": {
+        "web-store": [
+          "web-app-469d2"
+        ]
+      }
+    }
+  }
+}

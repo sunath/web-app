@@ -1,0 +1,26 @@
+<h2>Shopping Cart Page</h2>
+
+<p>You have {{userCart.AllItemsCount}} in your cart</p>
+
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Quantity</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let i of userCart.products ">
+    <th>{{i.cartItem.product.title}}</th>
+    <th>{{i.cartItem.quantity}}</th>
+    <th>{{i.TotalPrice | currency:"USD":true}}</th>
+  </tr>
+  </tbody>
+  <tfoot>
+  <th></th>
+  <th></th>
+  <th>{{userCart.TotalPrice | currency:"USD":true}}</th>
+  </tfoot>
+</table>

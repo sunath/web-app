@@ -1,0 +1,47 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+
+    <li [ngbNavItem]="1">
+        <a ngbNavLink >
+            0
+        </a>
+      </li>
+
+    <li [ngbNavItem]="2">
+      <a ngbNavLink [routerLink]="['shopping-cart']">Shopping Cart
+      <span class="badge badge-warning badge-pill"> {{appCart.AllItemsCount}}</span>
+      </a>
+    </li>
+
+    <ng-template #userUndefined>
+      <li [ngbNavItem]="2">
+        <a ngbNavLink [routerLink]="['login']">Login</a>
+      </li>
+    </ng-template>
+
+
+    <li ngbDropdown class="nav-item" *ngIf="user as userProfile;else userUndefined">
+        <a href (click)="false" class="nav-link" ngbDropdownToggle>{{ userProfile.name }}</a>
+        <div ngbDropdownMenu>
+          <button ngbDropdownItem routerLink="my/orders">My Orders</button>
+          <ng-container *ngIf="userProfile.isAdmin">
+            <button ngbDropdownItem routerLink="/admin/orders">Manage Orders</button>
+            <button ngbDropdownItem routerLink="admin/products">Manage Products</button>
+          </ng-container>
+          <div class="dropdown-divider"></div>
+          <button ngbDropdownItem (click)="logout()">Log out</button>
+        </div>
+      </li>
+
+
+
+
+
+
+
+  </ul>
+
+
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+

@@ -1,0 +1,26 @@
+<div *ngIf="voiceService.voiceActiveSectionDisabled; else voicesection;">
+    <button type="button" (click)="startListening()">Record</button>
+  </div>
+  <ng-template #voicesection>
+    <ng-container *ngIf="!voiceService.voiceActiveSectionError; else failure">
+      <ng-container *ngIf="voiceService.voiceText; else start">
+          <span>{{voiceService.voiceText}}</span>
+      </ng-container>
+      <ng-template #start>
+        <ng-container
+          *ngIf="voiceService.voiceActiveSectionListening; else beginning">
+          <span>Listening...</span>
+        </ng-container>
+        <ng-template #beginning>
+          <span>Start talking...</span>
+        </ng-template>
+      </ng-template>
+    </ng-container>
+    <ng-template #failure>
+      <span>Didn't catch that</span>
+    </ng-template>
+    <div>
+      <button (click)="endListening()">Close</button>
+      <button (click)="startListening()">Restart</button>
+    </div>
+  </ng-template>
