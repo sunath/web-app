@@ -10,6 +10,11 @@ import AppProductState from "../../Common/product-state";
 import FindProductCategory from "../../Common/VoiceHelpers/voice-product-category";
 import {CategoryService} from "../../Services/category.service";
 import {map} from "rxjs";
+import cartAddDecoder from "../../Common/VoiceHelpers/voice-cart";
+import {ShoppingCartService} from "../../shopping-cart.service";
+import cartCleaner from "../../Common/VoiceHelpers/cart-cleaner";
+import {MatDialog} from "@angular/material/dialog";
+import {VoiceCleanCart} from "./voice-clean-cart";
 
 declare const annyang: any;
 
@@ -25,7 +30,10 @@ export class VoiceComponent {
   private productKeys:AppProductState[] = []
   private allCategories:string[] = []
 
-  constructor(public voiceService:SpeechRecognizerService,private router:Router,private ngZone:NgZone,private productService:ProductsService,private  categoryService:CategoryService){
+  constructor(public voiceService:SpeechRecognizerService,
+              private router:Router,private ngZone:NgZone,private productService:ProductsService,
+              private  categoryService:CategoryService,private cartService:ShoppingCartService,
+              private matDialog:MatDialog){
     this.voiceService.addResultListener(this.myListener.bind(this))
     this.productService.getAllProducts().subscribe(data => {
       this.allProducts = data
@@ -39,14 +47,55 @@ export class VoiceComponent {
       const route = FindPath(args)
       const product = FindUpdatableProduct(args,this.allProducts)
 
-    const searchBy = FindProductCategory(args,this.allCategories)
+      const searchBy = FindProductCategory(args,this.allCategories)
+      const userProductAdd = cartAddDecoder("new",args,this.allProducts)
+      const userProductRemove = cartAddDecoder("delete",args,this.allProducts)
+
+    const cleanCart = cartCleaner("remove",args);
+
+    console.log(userProductRemove)
 
 
-  console.log(searchBy)
-    console.log(product)
+
+    // console.log(userProductAdd,"product")
+  //
+  // console.log(searchBy)
+  //   console.log(product)
 
 
       this.ngZone.run(() => {
+
+
+        if(cleanCart){
+
+          const data = this.matDialog.open(VoiceCleanCart)
+         const sub =  data.afterClosed().subscribe(r => {
+            if(r){
+              this.cartService.clearCart();
+            }
+            sub.unsubscribe();
+          })
+        }
+
+        if(userProductRemove.isCalled){
+          if(userProductRemove.product){
+            this.cartService.removeFromCart(userProductRemove.product)
+          }
+          return;
+        }
+
+        if(userProductAdd.isCalled){
+
+          if(userProductAdd.product){
+            this.cartService.addToCart(userProductAdd.product)
+          }
+
+          return;
+        }
+
+
+
+
 
         if(searchBy.isCalled && searchBy.productName){
           this.router.navigate(["/products/"],{queryParams:{
@@ -66,10 +115,13 @@ export class VoiceComponent {
         }
       })
 
+    this.endListening()
+
   }
 
   endListening(){
     this.voiceService.closeVoiceRecognition();
+    // this.voiceService.
   }
 
   startListening(){
@@ -80,3 +132,6 @@ export class VoiceComponent {
 
 
 }
+
+
+

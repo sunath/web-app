@@ -1,0 +1,17 @@
+
+.voice-root{
+  margin: auto;
+  text-align: center;
+}
+
+
+.voice-restart{
+  display: grid;
+  place-items: center;
+}
+
+.center{
+  text-align: center;
+  display: grid;
+  place-items: center;
+}

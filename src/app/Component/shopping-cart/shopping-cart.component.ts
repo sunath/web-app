@@ -12,6 +12,7 @@ import {AppCartProduct} from "../../Common/app-cart-product";
 export class ShoppingCartComponent implements OnInit {
 
   userCart:AppCart;
+  cart:any;
 
   constructor(private cartService:ShoppingCartService) {
     this.userCart = new AppCart();
@@ -22,7 +23,12 @@ export class ShoppingCartComponent implements OnInit {
     //@ts-ignore
     data.valueChanges().pipe(map(e => e.filter(m => m.product))).subscribe(data => {
       this.userCart = new AppCart(data as AppCartProduct[])
+      this.cart = data;
     })
   }
 
+
+  clearCart(){
+    this.cartService.clearCart()
+  }
 }

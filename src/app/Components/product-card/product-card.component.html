@@ -9,18 +9,7 @@
   <div class="card-footer">
     <button (click)="addToCart()" class="btn btn-secondary btn-block" *ngIf="getQuantity() == 0;else cardQuantity; ">Add to Cart</button>
     <ng-template #cardQuantity>
-      <div class="row no-gutters">
-        <div class="col-2">
-          <button class="btn btn-secondary" (click)="removeFromCart()">-</button>
-        </div>
-        <div class="col text-center">
-          {{getQuantity()}} in cart
-        </div>
-
-        <div class="col-2">
-          <button class="btn btn-secondary" (click)="addToCart()">+</button>
-        </div>
-      </div>
+      <app-product-quantity [product]="product" [cart]="cart"></app-product-quantity>
     </ng-template>
   </div>
 </div>

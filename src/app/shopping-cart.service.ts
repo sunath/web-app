@@ -54,12 +54,21 @@ export class ShoppingCartService {
     const cartId = await this.getOrCreateCart()
     const item= this.db.object("/shopping-carts/"+cartId+"/"+product.title)
     const item$ = item.valueChanges().pipe(take(1)).pipe(map((d) => d as any)).subscribe(data => {
-        if (data) item.update({quantity: data.quantity + count})
+        if (data){
+          const newCount = data.quantity + count;
+          if(newCount <= 0)item.remove();
+          else item.update({quantity:newCount })
+        }
         else item.update({product:product,quantity:1})
       }
     )
   }
   async removeFromCart(product:AppProduct){
     this.changeProduct(product,-1)
+  }
+
+  async clearCart(){
+    const id  = await this.getOrCreateCart();
+    this.db.object("/shopping-carts/"+id).set({dateCreated:new Date().getTime()})
   }
 }

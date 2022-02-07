@@ -7,6 +7,10 @@ export class AppCart{
   constructor(private _products?:AppCartProduct[]) {
   }
 
+  get appProducts(){
+   return  this._products?.map(e => e.product)
+  }
+
   get products(){
 
     return this._products ? this._products.map(e => new CartProduct(e)) : []

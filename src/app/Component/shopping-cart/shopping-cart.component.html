@@ -6,6 +6,7 @@
 <table class="table">
   <thead>
   <tr>
+    <th></th>
     <th>Title</th>
     <th>Quantity</th>
     <th>Price</th>
@@ -13,8 +14,11 @@
   </thead>
   <tbody>
   <tr *ngFor="let i of userCart.products ">
+    <th>
+      <img src="{{i.cartItem.product.imageUrl}}" class="thumbnail">
+</th>
     <th>{{i.cartItem.product.title}}</th>
-    <th>{{i.cartItem.quantity}}</th>
+    <th><app-product-quantity [product]="i.cartItem.product" [cart]="cart" ></app-product-quantity></th>
     <th>{{i.TotalPrice | currency:"USD":true}}</th>
   </tr>
   </tbody>
@@ -24,3 +28,6 @@
   <th>{{userCart.TotalPrice | currency:"USD":true}}</th>
   </tfoot>
 </table>
+
+
+<button class="btn btn-danger btn-sm" (click)="clearCart()">Clear Cart</button>

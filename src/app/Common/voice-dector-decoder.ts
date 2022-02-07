@@ -49,7 +49,8 @@ const MyRoutes:RouterDetail[] = [
     {
         name:"shopping cart",
         url:"/shopping-cart"
-    }
+    },
+  {name:"shopping card",url:"/shopping-cart"}
 ]
 
 export default function FindPath(array:string[]):RouterDetail |  undefined{

@@ -42,6 +42,11 @@ import { SpeechRecognizerService } from './speech-recognizer.service';
 import { ProductFilterComponent } from './Components/products/product-filter/product-filter.component';
 import { ProductCardComponent } from './Components/product-card/product-card.component';
 import { ProductQuantityComponent } from './Components/product-quantity/product-quantity.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {VoiceCleanCart} from "./Component/voice/voice-clean-cart";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -57,7 +62,8 @@ import { ProductQuantityComponent } from './Components/product-quantity/product-
     VoiceComponent,
     ProductFilterComponent,
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    VoiceCleanCart
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,10 @@ import { ProductQuantityComponent } from './Components/product-quantity/product-
     // provideFirestore(() => getFirestore()),
     // provideDatabase(() => getDatabase()),
     // provideAuth(() => getAuth()),
+
+    MatButtonModule,
+    MatIconModule,
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -76,22 +86,24 @@ import { ProductQuantityComponent } from './Components/product-quantity/product-
     RouterModule.forRoot(
       [
 
-        {path:"products",component:ProductsComponent},
-        {path:"login",component:LoginComponent},
-        {path:"shopping-cart",component:ShoppingCartComponent},
+        {path: "products", component: ProductsComponent},
+        {path: "login", component: LoginComponent},
+        {path: "shopping-cart", component: ShoppingCartComponent},
 
-        {path:"admin/products/new",component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuard]},
-        {path:"admin/products/:id",component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuard]},
-        {path:"admin/products",component:AdminProductsComponent,canActivate:[AuthGuardService,AdminAuthGuard]},
-        {path:"admin/orders",component:AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuard]},
+        {path: "admin/products/new", component: ProductFormComponent, canActivate: [AuthGuardService, AdminAuthGuard]},
+        {path: "admin/products/:id", component: ProductFormComponent, canActivate: [AuthGuardService, AdminAuthGuard]},
+        {path: "admin/products", component: AdminProductsComponent, canActivate: [AuthGuardService, AdminAuthGuard]},
+        {path: "admin/orders", component: AdminOrdersComponent, canActivate: [AuthGuardService, AdminAuthGuard]},
 
-        {path:"check-out",component:CheckOutComponent,canActivate:[AuthGuardService]},
-        {path:"order-success",component:OrderSuccessComponent,canActivate:[AuthGuardService]},
+        {path: "check-out", component: CheckOutComponent, canActivate: [AuthGuardService]},
+        {path: "order-success", component: OrderSuccessComponent, canActivate: [AuthGuardService]},
 
-        {path:"my/orders",component:MyOrdersComponent,canActivate:[AuthGuardService ]},
+        {path: "my/orders", component: MyOrdersComponent, canActivate: [AuthGuardService]},
 
       ]
-    )
+    ),
+    BrowserAnimationsModule,
+    MatDialogModule
 
   ],
   providers: [UserService,AuthService,AuthGuardService,CategoryService],
